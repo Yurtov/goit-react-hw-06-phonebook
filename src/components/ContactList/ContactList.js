@@ -1,14 +1,13 @@
-import { List, ContactItem, Span, DeleteBtn } from './ContactList.styled';
-import { AiOutlineDelete } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilter } from 'redux/selectors';
 import { deleteContact, getContacts } from 'redux/contactsReducer';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { List, ContactItem, Span, DeleteBtn, Stub } from './ContactList.styled';
 
 export const ContactList = () => {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
   const dispatch = useDispatch();
-
 
   const visiblesContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
@@ -33,7 +32,7 @@ export const ContactList = () => {
           </ContactItem>
         ))
       ) : (
-        <div>Not found</div>
+        <Stub>Not found</Stub>
       )}
     </List>
   );
