@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Modal from 'react-modal';
 import { AiOutlineUserAdd, AiOutlineClose } from 'react-icons/ai';
 import { ContactForm } from './ContactForm/ContactForm';
@@ -13,6 +13,8 @@ import {
   SubTitle,
   Massage,
 } from './Loyaut';
+import { useSelector } from 'react-redux';
+import { getContacts } from 'redux/contactsReducer';
 
 const localStorageKey = 'contacts';
 
@@ -30,7 +32,7 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-const getInitialContacts = () => {
+export const getInitialContacts = () => {
   const savedContacts = localStorage.getItem(localStorageKey);
   if (savedContacts !== null) {
     return JSON.parse(savedContacts);
@@ -39,42 +41,11 @@ const getInitialContacts = () => {
 };
 
 export const App = () => {
-  const [contacts, setContacts] = useState(getInitialContacts);
-  const [filter, setFilter] = useState('');
+  const contacts = useSelector(getContacts);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem(localStorageKey, JSON.stringify(contacts));
-  }, [contacts]);
-
   const openModal = () => setIsModalOpen(true);
-
   const closeModal = () => setIsModalOpen(false);
-
-  const addContact = newContact => {
-    contacts.some(
-      contact =>
-        contact.name.toLowerCase().trim() ===
-          newContact.name.toLowerCase().trim() ||
-        contact.number.trim() === newContact.number.trim()
-    )
-      ? alert(`${newContact.name} is already in contact`)
-      : setContacts(prevState => [...prevState, newContact]);
-  };
-
-  const handleDelete = deleteContactEl => {
-    setContacts(prevState =>
-      prevState.filter(contact => contact.id !== deleteContactEl)
-    );
-  };
-
-  const searchByFilter = newFilter => {
-    setFilter(newFilter);
-  };
-
-  const visiblesContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
 
   return (
     <Layout>
@@ -88,8 +59,8 @@ export const App = () => {
 
         {contacts.length > 0 ? (
           <div>
-            <Filter onChange={searchByFilter} filter={filter} />
-            <ContactList contacts={visiblesContacts} onClick={handleDelete} />
+            <Filter />
+            <ContactList />
           </div>
         ) : (
           <Massage>Contact list is empty</Massage>
@@ -105,7 +76,7 @@ export const App = () => {
           <AiOutlineClose size={25} />
         </BtnClose>
         <ContactForm
-          onAddContact={addContact}
+          // onAddContact={addContact}
           onClose={closeModal}
           style={customStyles}
         />

@@ -1,6 +1,8 @@
 import { Formik } from 'formik';
 import { nanoid } from 'nanoid';
 import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact, getContacts } from 'redux/contactsReducer';
 import { AiOutlineUser, AiOutlinePhone } from 'react-icons/ai';
 import {
   StyledForm,
@@ -31,40 +33,52 @@ const schema = Yup.object().shape({
     .required('Required'),
 });
 
-export const ContactForm = ({ onAddContact, onClose }) => (
-  <Formik
-    initialValues={{
-      name: '',
-      number: '',
-    }}
-    validationSchema={schema}
-    onSubmit={(values, actions) => {
-      onAddContact({
-        id: nanoid(),
-        ...values,
-      });
-      onClose();
-      actions.resetForm();
-    }}
-  >
-    <StyledForm>
-      <Label>
-        Name <AiOutlineUser />
-        <StyledField name="name" />
-        <br />
-        <StyledErrorMessage name="name" component="div" />
-      </Label>
+export const ContactForm = ({ onClose }) => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
 
-      <Label>
-        Number <AiOutlinePhone />
-        <StyledField name="number" />
-        <br />
-        <StyledErrorMessage name="number" component="div" />
-      </Label>
+  return (
+    <Formik
+      initialValues={{
+        name: '',
+        number: '',
+      }}
+      validationSchema={schema}
+      onSubmit={(values, actions) => {
+        contacts.some(
+          contact =>
+            contact.name.toLowerCase().trim() ===
+              values.name.toLowerCase().trim() ||
+            contact.number.trim() === values.number.trim()
+        )
+          ? alert(`${values.name} or ${values.number} is already in contact`)
+          : dispatch(
+              addContact({
+                id: nanoid(),
+                ...values,
+              })
+            );
+        onClose();
+        actions.resetForm();
+      }}
+    >
+      <StyledForm>
+        <Label>
+          Name <AiOutlineUser />
+          <StyledField name="name" />
+          <br />
+          <StyledErrorMessage name="name" component="div" />
+        </Label>
 
-      <Button type="submit">
-        Add contact
-      </Button>
-    </StyledForm>
-  </Formik>
-);
+        <Label>
+          Number <AiOutlinePhone />
+          <StyledField name="number" />
+          <br />
+          <StyledErrorMessage name="number" component="div" />
+        </Label>
+
+        <Button type="submit">Add contact</Button>
+      </StyledForm>
+    </Formik>
+  );
+};

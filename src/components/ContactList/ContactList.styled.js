@@ -22,3 +22,7 @@ export const DeleteBtn = styled.button`
   align-items: center;
   cursor: pointer;
 `;
+
+export const Stub = styled.div`
+  color: red;
+`;
