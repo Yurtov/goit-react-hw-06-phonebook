@@ -57,9 +57,9 @@ export const ContactForm = ({ onClose }) => {
                 id: nanoid(),
                 ...values,
               })
-            );
-        onClose();
-        actions.resetForm();
+            ) &&
+            onClose() &&
+            actions.resetForm();
       }}
     >
       <StyledForm>
