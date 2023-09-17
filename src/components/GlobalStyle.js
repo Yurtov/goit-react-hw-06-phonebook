@@ -9,7 +9,7 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color:  #e8e6e6;
+    background-color: #ebebed; 
   }
 
   code {
@@ -20,7 +20,6 @@ body {
   ul {
     margin: 0;
     padding: 0;
-    list-style: none;
   }
 
   img {
@@ -30,14 +29,6 @@ body {
     height: auto;
   }
 
-  h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-	margin: 0;
-}
+
 
 `;

@@ -3,11 +3,13 @@ import styled from 'styled-components';
 export const List = styled.ul`
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
   gap: 15px;
   font-size: 25px;
 `;
 
-export const ContactItem = styled.li``;
+export const ContactItem = styled.li`
+`;
 
 export const Span = styled.span`
   display: flex;
