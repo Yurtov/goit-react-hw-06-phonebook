@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 
 export const Layout = styled.main`
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   font-size: 40;
   color: #010101;
@@ -23,6 +21,11 @@ export const BtnOpen = styled.button`
   align-items: center;
   cursor: pointer;
   outline: none;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover,
+  :focus {
+    transform: scale(1.03);
+  }
 `;
 
 export const Contacts = styled.div`

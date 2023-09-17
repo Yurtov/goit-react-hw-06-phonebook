@@ -16,21 +16,23 @@ export const ContactList = () => {
   return (
     <List>
       {visiblesContacts.length !== 0 ? (
-        visiblesContacts.map(contact => (
-          <ContactItem key={contact.id}>
-            <Span>
-              {contact.name}: {contact.number}
-              <DeleteBtn
-                type="button"
-                onClick={() => {
-                  dispatch(deleteContact(contact.id));
-                }}
-              >
-                <AiOutlineDelete size={27} />
-              </DeleteBtn>
-            </Span>
-          </ContactItem>
-        ))
+        visiblesContacts
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map(contact => (
+            <ContactItem key={contact.id}>
+              <Span>
+                {contact.name}: {contact.number}
+                <DeleteBtn
+                  type="button"
+                  onClick={() => {
+                    dispatch(deleteContact(contact.id));
+                  }}
+                >
+                  <AiOutlineDelete size={27} />
+                </DeleteBtn>
+              </Span>
+            </ContactItem>
+          ))
       ) : (
         <Stub>Not found</Stub>
       )}
